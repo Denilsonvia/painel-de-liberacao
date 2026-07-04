@@ -188,7 +188,9 @@
 
     async function carregar(){
         try {
-            let r = await fetch("dados.json?" + new Date().getTime());
+        let r = await fetch(
+  "https://cdn.jsdelivr.net/gh/Denilsonvia/painel-de-liberacao@main/dados.json?v=" + Date.now()
+);
             let dados = await r.json();
             if(JSON.stringify(dados) !== ultimaVersao){ ultimaVersao = JSON.stringify(dados); atualizarPainel(dados); }
         } catch(e) { console.log("Aguardando dados..."); }
