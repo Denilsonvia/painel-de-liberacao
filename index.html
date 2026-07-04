@@ -187,14 +187,23 @@
     }
 
     async function carregar(){
-        try {
+    try {
+
         let r = await fetch(
-  "https://raw.githubusercontent.com/Denilsonvia/painel-de-liberacao/main/dados.json?v=" + Date.now()
-);
-            let dados = await r.json();
-            if(JSON.stringify(dados) !== ultimaVersao){ ultimaVersao = JSON.stringify(dados); atualizarPainel(dados); }
-        } catch(e) { console.log("Aguardando dados..."); }
+            "https://cdn.jsdelivr.net/gh/Denilsonvia/painel-de-liberacao@main/dados.json?v=" + Date.now()
+        );
+
+        let dados = await r.json();
+
+        if(JSON.stringify(dados) !== ultimaVersao){
+            ultimaVersao = JSON.stringify(dados);
+            atualizarPainel(dados);
+        }
+
+    } catch(e) {
+        console.error("Erro:", e);
     }
+}
     carregar();
     setInterval(carregar, 10000);
 </script>
