@@ -33,7 +33,7 @@
         @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
 
         /* Estilo Principal */
-        body { margin: 0; background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; min-height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow: hidden; margin-top: -10px; }
+        body { margin: 0; background: #0f172a; color: white; font-family: 'Segoe UI', sans-serif; min-height: 100vh; width: 100vw; display: flex; flex-direction: column; overflow: hidden; margin-top: -10px; transition: background 0.3s, color 0.3s; }
         .header { background: linear-gradient(to right, #0b3eca 0%, #2563eb 30%, #ef4444 65%, #f71c1c 100%); border-bottom: 2px solid #ffffff; flex: 0 0 auto; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
         .container { max-width: 100vw; margin: 0 auto; flex: 1; width: 100%; padding: 5px 15px 15px 15px; box-sizing: border-box; display: flex; flex-direction: column; min-height: 0; }
         .main { display: grid; grid-template-columns: 49% 49%; grid-template-rows: 48% 48%; justify-content: space-between; align-content: center; gap: 15px 30px; width: 100%; height: 100%; }
@@ -42,22 +42,53 @@
             background: #1e293b; border-radius: 12px; padding: 15px; display: flex; flex-direction: column; justify-content: center;
             border-top: 1px solid rgba(255,255,255,0.2); border-left: 1px solid rgba(255,255,255,0.2);
             box-shadow: 10px 10px 20px rgba(0,0,0,0.5), -5px -5px 10px rgba(255,255,255,0.02);
+            transition: background 0.3s;
         }
 
         .tv1 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 15px; }
         .big { font-size: clamp(20px, 3vw, 45px); font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         .tv3 { padding: 10px; overflow: hidden; }
+        .table-responsive { width: 100%; }
         table { width: 100%; border-collapse: collapse; }
-        th { background: rgba(30, 64, 175, 0.8); padding: 6px; font-size: 11px; }
+        th { background: rgba(30, 64, 175, 0.8); padding: 6px; font-size: 11px; transition: background 0.3s, color 0.3s; }
         td { padding: 4px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; }
 
-        .ok { color: #22c55e; font-weight: bold; }
-        .warn { color: #facc15; font-weight: bold; }
-        .bad { color: #ef4444; font-weight: bold; }
-        .quadrante-title { font-size: 14px; font-weight: bold; text-align: center; margin-bottom: 10px; color: #cbd5e1; }
+        .ok { color: #22c55e !important; font-weight: bold; }
+        .warn { color: #facc15 !important; font-weight: bold; }
+        .bad { color: #ef4444 !important; font-weight: bold; }
+        .quadrante-title { font-size: 14px; font-weight: bold; text-align: center; margin-bottom: 10px; color: #cbd5e1; transition: color 0.3s; }
         .chart-container { position: relative; flex-grow: 1; min-height: 0; width: 100%; }
 
-        @media (max-width: 768px) { body { overflow-y: auto; height: auto; } .main { grid-template-columns: 1fr; } }
+        /* Estilos do Modo Claro */
+        body.light-mode { background: #f8fafc; color: #000000; }
+        body.light-mode .card, body.light-mode .tv2, body.light-mode .tv3, body.light-mode .quadrante { background: #ffffff; border-color: rgba(0,0,0,0.1); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        body.light-mode .big { text-shadow: none; }
+        
+        body.light-mode .card:nth-child(1) .big { color: #000000; }
+        body.light-mode .text-green-400 { color: #16a34a !important; }
+        body.light-mode .text-blue-400 { color: #2563eb !important; }
+        body.light-mode .text-red-400 { color: #dc2626 !important; }
+
+        body.light-mode .quadrante-title { color: #000000; }
+        body.light-mode th { background: #e2e8f0; color: #000000; }
+        body.light-mode td { border-bottom-color: rgba(0,0,0,0.1); color: #000000; }
+        body.light-mode td:not(.ok):not(.warn):not(.bad) { color: #000000 !important; }
+        body.light-mode .tv2 div { color: #000000 !important; }
+
+        /* Ajustes Mobile Finos */
+        @media (max-width: 768px) { 
+            body { overflow-y: auto; height: auto; } 
+            .header { flex-direction: column; gap: 8px; padding: 10px; text-align: center; }
+            .header div { text-align: center !important; }
+            .main { grid-template-columns: 1fr; grid-template-rows: auto; gap: 15px; } 
+            .tv1 { grid-template-columns: 1fr 1fr; } /* Mantém cards em 2x2 no celular */
+            .card { padding: 10px; height: 90px; }
+            .big { font-size: 24px; }
+            .chart-container { height: 220px; min-height: 220px; } /* Garante tamanho pros gráficos no mobile */
+            .tv3 { overflow-x: auto; max-height: 300px; overflow-y: auto; }
+            .table-responsive { overflow-x: auto; }
+            .tv4 { grid-template-columns: 1fr !important; } /* Empilha os dois donuts de baixo */
+        }
     </style>
 </head>
 
@@ -76,13 +107,18 @@
 </div>
 
 <div class="header flex justify-between items-center px-6 py-2">
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-4 flex-wrap justify-center">
         <img src="https://www.grupocasasbahia.com.br/wp-content/uploads/2023/01/logo-gcb-horiz-alt-1024x108.png" style="height: 40px; background: white; padding: 5px 15px; border-radius: 20px;">
         <span style="font-size:13px;letter-spacing:1px; font-weight:600;">CONTROL CENTER | LIBERAÇÃO DE CARGAS</span>
     </div>
-    <div style="text-align:right;">
-        <div id="data"></div>
-        <div id="hora" style="font-size:14px;font-weight:bold;"></div>
+    <div class="flex items-center gap-4" style="text-align:right;">
+        <button id="themeToggle" class="bg-black/20 hover:bg-black/40 text-xl p-1.5 rounded-full transition-colors duration-200 focus:outline-none" title="Alternar tema">
+            🌙
+        </button>
+        <div>
+            <div id="data"></div>
+            <div id="hora" style="font-size:14px;font-weight:bold;"></div>
+        </div>
     </div>
 </div>
 
@@ -99,10 +135,12 @@
             <div class="chart-container"><canvas id="donut"></canvas></div>
         </div>
         <div class="tv3">
-            <table>
-                <thead><tr><th>Transp.</th><th>Cargas</th><th>Lib</th><th>%</th></tr></thead>
-                <tbody id="tabela"></tbody>
-            </table>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>Transp.</th><th>Cargas</th><th>Lib</th><th>%</th></tr></thead>
+                    <tbody id="tabela"></tbody>
+                </table>
+            </div>
         </div>
         <div class="tv4" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
             <div class="quadrante"><div class="quadrante-title">Tipo Operação</div><div class="chart-container"><canvas id="donutOperacao"></canvas></div></div>
@@ -136,6 +174,50 @@
     let chart, opChart, portariaChart;
     let ultimaVersao = "";
 
+    // Gerenciamento de Tema Claro / Escuro
+    const themeToggleBtn = document.getElementById('themeToggle');
+    
+    // Verifica se há preferência salva
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+        themeToggleBtn.innerText = '☀️';
+    }
+
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        themeToggleBtn.innerText = isLight ? '☀️' : '🌙';
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        // Atualiza a cor dos textos dos gráficos ao mudar o tema
+        atualizarCoresGraficos();
+    });
+
+    function obterCorTexto() {
+        return document.body.classList.contains('light-mode') ? '#000000' : '#ffffff';
+    }
+
+    function atualizarCoresGraficos() {
+        const corTexto = obterCorTexto();
+        
+        if (chart) {
+            chart.options.plugins.datalabels.color = corTexto;
+            chart.options.scales.x.ticks.color = corTexto;
+            chart.options.scales.y.ticks.color = corTexto;
+            chart.update();
+        }
+        if (opChart) {
+            opChart.options.plugins.legend.labels.color = corTexto;
+            opChart.options.plugins.datalabels.color = corTexto;
+            opChart.update();
+        }
+        if (portariaChart) {
+            portariaChart.options.plugins.legend.labels.color = corTexto;
+            portariaChart.options.plugins.datalabels.color = corTexto;
+            portariaChart.update();
+        }
+    }
+
     function atualizarPainel(dados){
         dados = dados.filter(x => Number(x.cargas) > 0);
         let total = dados.reduce((a,b) => a + Number(b.cargas || 0), 0);
@@ -165,6 +247,7 @@
     function montarBarra(d){
         d.sort((a,b) => b.cargas - a.cargas);
         let totalCargas = d.reduce((sum, x) => sum + Number(x.cargas), 0);
+        const corTexto = obterCorTexto();
         
         if(!chart){
             chart = new Chart(document.getElementById('donut'), {
@@ -174,29 +257,35 @@
                     indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false, 
                     plugins: { 
                         legend: { display: false },
-                        datalabels: { anchor: 'end', align: 'right', color: '#ffffff', font: { weight: 'bold' }, formatter: (v) => (totalCargas > 0 ? ((v/totalCargas)*100).toFixed(1) + "%" : "0%") }
+                        datalabels: { anchor: 'end', align: 'right', color: corTexto, font: { weight: 'bold' }, formatter: (v) => (totalCargas > 0 ? ((v/totalCargas)*100).toFixed(1) + "%" : "0%") }
                     }, 
-                    scales: { x: { ticks: { color: '#ffffff' }, max: Math.max(...d.map(x=>x.cargas), 1) * 1.2 }, y: { ticks: { color: '#ffffff', font: { size: 10 } }, grid: { display: false } } } 
+                    scales: { x: { ticks: { color: corTexto }, max: Math.max(...d.map(x=>x.cargas), 1) * 1.2 }, y: { ticks: { color: corTexto, font: { size: 10 } }, grid: { display: false } } } 
                 }
             });
         } else {
             chart.data.labels = d.map(x => x.nome);
             chart.data.datasets[0].data = d.map(x => x.cargas);
+            chart.options.plugins.datalabels.color = corTexto;
+            chart.options.scales.x.ticks.color = corTexto;
+            chart.options.scales.y.ticks.color = corTexto;
             chart.update();
         }
     }
 
-    const optionsDoughnut = {
-        responsive: true, maintainAspectRatio: false, animation: false, cutout: "60%",
-        plugins: {
-            legend: { position: 'bottom', labels: { color: '#ffffff', boxWidth: 10 } },
-            datalabels: { color: '#ffffff', font: { weight: 'bold' }, formatter: (val, ctx) => {
-                let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
-                let pct = (val / sum * 100).toFixed(1);
-                return `${val} (${pct}%)`;
-            }}
-        }
-    };
+    function obterConfigDoughnut() {
+        const corTexto = obterCorTexto();
+        return {
+            responsive: true, maintainAspectRatio: false, animation: false, cutout: "60%",
+            plugins: {
+                legend: { position: 'bottom', labels: { color: corTexto, boxWidth: 10 } },
+                datalabels: { color: corTexto, font: { weight: 'bold' }, formatter: (val, ctx) => {
+                    let sum = ctx.dataset.data.reduce((a, b) => a + b, 0);
+                    let pct = (val / sum * 100).toFixed(1);
+                    return `${val} (${pct}%)`;
+                }}
+            }
+        };
+    }
 
     function montarOperacao(d){
         const listaDireta = ["SOUZA E CHIC", "ASAP", "CARRIERS", "BT TRANSPORTES", "BR SAMOR", "EC PEREIRA", "ALA CARGO", "CHÃO BRASIL DIRETA", "TAVARES"];
@@ -208,15 +297,24 @@
         });
 
         if(!opChart){
-            opChart = new Chart(document.getElementById('donutOperacao'), { type: 'doughnut', plugins: [ChartDataLabels], data: { labels: ["DIRETA", "POLO"], datasets: [{ data: [totalDireta, totalPolo], backgroundColor: ["#3b82f6", "#1e40af"], borderWidth: 0 }] }, options: optionsDoughnut });
-        } else { opChart.data.datasets[0].data = [totalDireta, totalPolo]; opChart.update(); }
+            opChart = new Chart(document.getElementById('donutOperacao'), { type: 'doughnut', plugins: [ChartDataLabels], data: { labels: ["DIRETA", "POLO"], datasets: [{ data: [totalDireta, totalPolo], backgroundColor: ["#3b82f6", "#1e40af"], borderWidth: 0 }] }, options: obterConfigDoughnut() });
+        } else { 
+            opChart.data.datasets[0].data = [totalDireta, totalPolo]; 
+            opChart.options = obterConfigDoughnut();
+            opChart.update(); 
+        }
     }
 
     function montarPortaria(d){
         let portaria = d.filter(x => Number(x.saidaPortaria || 0) > 0);
         if(!portariaChart){
-            portariaChart = new Chart(document.getElementById('donutPortaria'), { type: 'doughnut', plugins: [ChartDataLabels], data: { labels: portaria.map(x => x.nome), datasets: [{ data: portaria.map(x => x.saidaPortaria), backgroundColor: ["#3b82f6", "#60a5fa"], borderWidth: 0 }] }, options: optionsDoughnut });
-        } else { portariaChart.data.labels = portaria.map(x => x.nome); portariaChart.data.datasets[0].data = portaria.map(x => Number(x.saidaPortaria || 0)); portariaChart.update(); }
+            portariaChart = new Chart(document.getElementById('donutPortaria'), { type: 'doughnut', plugins: [ChartDataLabels], data: { labels: portaria.map(x => x.nome), datasets: [{ data: portaria.map(x => x.saidaPortaria), backgroundColor: ["#3b82f6", "#60a5fa"], borderWidth: 0 }] }, options: obterConfigDoughnut() });
+        } else { 
+            portariaChart.data.labels = portaria.map(x => x.nome); 
+            portariaChart.data.datasets[0].data = portaria.map(x => Number(x.saidaPortaria || 0)); 
+            portariaChart.options = obterConfigDoughnut();
+            portariaChart.update(); 
+        }
     }
 
     async function carregar(){
