@@ -6,19 +6,23 @@
     <title>Painel Transportes - Liberação</title>
     
     <!-- Configurações para Instalação como Aplicativo (PWA) -->
+    <!-- Você precisará criar e configurar o arquivo manifest.json na mesma pasta -->
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#2563eb">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Liberação">
-    <link rel="apple-touch-icon" href="https://www.grupocasasbahia.com.br/wp-content/uploads/2023/09/logo-gcb-blue-alt.png">
+    
+    <!-- ALTERADO: Link para o ícone que aparecerá no iPhone/iPad ao "Adicionar à Tela de Início" -->
+    <!-- Usei uma logo oficial da Casas Bahia em formato PNG -->
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/192x192.png?text=CB+Logo"> <!-- Substitua por: icon-192.png -->
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
     <style>
-        /* Splash Screen */
+        /* ... (todo o seu CSS permanece igual) ... */
         #splash { 
             position: fixed; inset: 0; background: #0f172a; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
@@ -145,7 +149,8 @@
 <body>
 
 <div id="splash">
-    <img src="https://www.grupocasasbahia.com.br/wp-content/uploads/2023/01/logo-gcb-horiz-alt-1024x108.png" class="pulse-logo">
+    <!-- ALTERADO: Logo no Splash Screen para Casas Bahia -->
+    <img src="https://upload.wikimedia.org/wikipedia/pt/2/2a/Logo_Casas_Bahia.png" class="pulse-logo">
     <div class="progress-container">
         <div class="progress-bar"><div class="progress-fill"></div></div>
         <div class="checklist">
@@ -158,7 +163,8 @@
 
 <div class="header flex justify-between items-center px-6 py-2">
     <div class="flex items-center gap-4 flex-wrap justify-center">
-        <img src="https://www.grupocasasbahia.com.br/wp-content/uploads/2023/01/logo-gcb-horiz-alt-1024x108.png" style="height: 40px; background: white; padding: 5px 15px; border-radius: 20px;">
+        <!-- ALTERADO: Logo no Cabeçalho para Casas Bahia -->
+        <img src="https://upload.wikimedia.org/wikipedia/pt/2/2a/Logo_Casas_Bahia.png" style="height: 40px; background: white; padding: 5px 15px; border-radius: 20px;">
         <span style="font-size:13px;letter-spacing:1px; font-weight:600;">CONTROL CENTER | LIBERAÇÃO DE CARGAS</span>
     </div>
     <div class="flex items-center gap-4" style="text-align:right;">
@@ -173,6 +179,7 @@
 </div>
 
 <div class="container">
+    <!-- ... (todo o resto do seu corpo do HTML permanece igual) ... -->
     <div class="main">
         <div class="tv1">
             <div class="card flex-row items-center justify-between px-5">
@@ -232,6 +239,7 @@
 </div>
 
 <script>
+    // ... (todo o seu JavaScript permanece igual) ...
     // Registro do Service Worker para PWA (Aplicativo)
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('sw.js')
