@@ -416,7 +416,14 @@
     // CONFIGURADO: Mantido o RAW original estável com o cache buster dinâmico (?v=)
     async function carregar(){
         try {
-            let r = await fetch("https://raw.githubusercontent.com/transportevia/painel-de-liberacao/main/dados.json?v=" + Date.now());
+       let r = await fetch(
+"https://api.github.com/repos/transportevia/painel-de-liberacao/contents/dados.json?t=" + Date.now(),
+{
+    cache: "no-store",
+    headers: {
+        "Accept": "application/vnd.github.v3.raw"
+    }
+});
             let dados = await r.json();
             if(JSON.stringify(dados) !== ultimaVersao){
                 ultimaVersao = JSON.stringify(dados);
@@ -425,7 +432,7 @@
         } catch(e) { console.error("Erro:", e); }
     }
     carregar();
-    setInterval(carregar, 10000);
+    setInterval(carregar, 5000);
 </script>
 </body>
 </html>
